@@ -1,7 +1,7 @@
 require 'aws/decider'
 
 class ColdBackupUtils
-  WF_VERSION = "1.0"
+  WF_VERSION = "1.1"
   ACTIVITY_VERSION = "1.0"
   WF_TASK_LIST = "workflow_task_list"
   ACTIVITY_TASK_LIST = "activity_task_list"

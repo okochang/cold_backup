@@ -14,8 +14,8 @@ class ColdBackupWorkflow
 
   activity_client(:client) { { from_class: "ColdBackupActivity" } }
 
-  def cold_backup(instance_id, public_ip_addr, username, keyname)
-    client.get_public_ip_addr(instance_id)
+  def cold_backup(instance_id, username, keyname)
+    public_ip_addr = client.get_public_ip_addr(instance_id)
     client.shutdown_mysql(public_ip_addr, username, keyname)
     client.start_mysql(public_ip_addr, username, keyname)
   end
