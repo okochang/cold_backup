@@ -13,7 +13,10 @@ class ColdBackupActivity
     }
   end
 
-  def get_public_ip_addr
+  def get_public_ip_addr(instance_id)
+    ec2 = AWS::EC2.new
+    i = ec2.instances[instance_id]
+    puts i.ip_address
   end
 
   def shutdown_mysql(public_ip_addr, username, keyname)
