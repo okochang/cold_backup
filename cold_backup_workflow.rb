@@ -17,6 +17,7 @@ class ColdBackupWorkflow
   def cold_backup(instance_id, username, keyname)
     public_ip_addr = client.get_public_ip_addr(instance_id)
     client.shutdown_mysql(public_ip_addr, username, keyname)
+    client.create_ami(instance_id)
     client.start_mysql(public_ip_addr, username, keyname)
   end
 
