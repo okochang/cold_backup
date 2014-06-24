@@ -36,7 +36,7 @@ class ColdBackupActivity
   end
 
   def create_ami(instance_id)
-    ec2 AWS::EC2.new
+    ec2 = AWS::EC2.new
     i = ec2.instances[instance_id]
     timestamp = Time.now.strftime("%Y%m%d%H%M")
     i.create_image("#{instance_id}-#{timestamp}", description: "#{instance_id}-#{timestamp}", no_reboot: true)
