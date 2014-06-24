@@ -16,7 +16,7 @@ class ColdBackupActivity
   def get_public_ip_addr(instance_id)
     ec2 = AWS::EC2.new
     i = ec2.instances[instance_id]
-    puts i.ip_address
+    return i.ip_address
   end
 
   def shutdown_mysql(public_ip_addr, username, keyname)
@@ -35,7 +35,11 @@ class ColdBackupActivity
     puts "start complete"    
   end
 
-  def create_ami
+  def create_ami(instance_id)
+    ec2 AWS::EC2.new
+    i = ec2.instances[instance_id]
+    timestamp = Time.now.strftime("%Y%m%d%H%M")
+    i.create_image("#{instance_id}-#{timestamp}", description: "#{instance_id}-#{timestamp}", no_reboot: true)
   end
 
 end
