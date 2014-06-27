@@ -4,7 +4,7 @@ require_relative 'cold_backup_utils'
 class ColdBackupActivity
   extend AWS::Flow::Activities
 
-  activity :get_public_ip_addr, :shutdown_mysql, :start_mysql, :create_ami, :ami_available? do
+  activity :get_public_ip_addr, :shutdown_mysql, :start_mysql, :create_ami, :ami_available?, :puts_waiting_message do
     {
       version: ColdBackupUtils::ACTIVITY_VERSION,
       default_task_list: ColdBackupUtils::ACTIVITY_TASK_LIST,
@@ -50,6 +50,10 @@ class ColdBackupActivity
     end
   end
 
+  def puts_waiting_message
+    puts "Sorry to keep you waiting"
+  end
+  
 end
 
 ColdBackupUtils.new.activity_worker(ColdBackupActivity).start if $0 == __FILE__
