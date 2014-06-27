@@ -4,7 +4,7 @@ require_relative 'cold_backup_utils'
 class ColdBackupActivity
   extend AWS::Flow::Activities
 
-  activity :get_public_ip_addr, :shutdown_mysql, :start_mysql, :create_ami do
+  activity :get_public_ip_addr, :shutdown_mysql, :start_mysql, :create_ami, :ami_available? do
     {
       version: ColdBackupUtils::ACTIVITY_VERSION,
       default_task_list: ColdBackupUtils::ACTIVITY_TASK_LIST,
@@ -40,6 +40,14 @@ class ColdBackupActivity
     i = ec2.instances[instance_id]
     timestamp = Time.now.strftime("%Y%m%d%H%M")
     i.create_image("#{instance_id}-#{timestamp}", description: "#{instance_id}-#{timestamp}", no_reboot: true)
+  end
+
+  def ami_available?(image)
+    if image.state == :available
+      return true
+    else
+      return false
+    end
   end
 
 end
