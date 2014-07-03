@@ -39,10 +39,13 @@ class ColdBackupActivity
     ec2 = AWS::EC2.new
     i = ec2.instances[instance_id]
     timestamp = Time.now.strftime("%Y%m%d%H%M")
-    i.create_image("#{instance_id}-#{timestamp}", description: "#{instance_id}-#{timestamp}", no_reboot: true)
+    image = i.create_image("#{instance_id}-#{timestamp}", description: "#{instance_id}-#{timestamp}", no_reboot: true)
+    image.image_id
   end
 
-  def ami_available?(image)
+  def ami_available?(image_id)
+    ec2 = AWS::EC2.new
+    image = ec2.images[image_id]
     if image.state == :available
       return true
     else
